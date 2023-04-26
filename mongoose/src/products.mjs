@@ -5,18 +5,37 @@ import path from 'path';
 import cors from "cors"
 import mongoose from "mongoose"
 
-// Connect to MongoDB
-mongoose.connect('mongodb://localhost/library', { useNewUrlParser: true })
-  .then(() => console.log('MongoDB connected'))
-  .catch(err => console.log(err));
-
-//set the products imported from products.json
-let products = product["products"];
-
 // Create an instance of Express app
 const app = express();
 app.use(body_parser.json());
 app.use(cors());
+
+// Connect to MongoDB
+mongoose.connect('mongodb://localhost/products', { useNewUrlParser: true })
+  .then(() => console.log('MongoDB connected'))
+  .catch(err => console.log(err));
+
+// Description of the product state
+const productSchema = new mongoose.Schema({
+  id: String,title: String,
+  description: String,price: Number,
+  discountPercentage: Number,rating: Number,stock: Number,
+  brand: String,category: String,thumbnail: String,images: Array
+});
+
+const Product = mongoose.model('Product', productSchema);
+
+//Populate the database
+let products = product["products"];
+
+// Seed the database with some sample books
+Product.deleteMany().then(() => {
+  Product.insertMany(products);
+  })
+  .then(() => console.log('Database Populated'))
+  .catch(err => {
+    console.log(err);
+  });
 
 // Configure middleware
 const __dirname = path.dirname(new URL(import.meta.url).pathname);
