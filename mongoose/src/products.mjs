@@ -27,8 +27,7 @@ const Product = mongoose.model('Product', productSchema);
 
 //Populate the database
 let products = product["products"];
-console.log(products);
-// Seed the database with some sample books
+
 Product.deleteMany().then(() => {
   Product.insertMany(products);
   })
@@ -36,6 +35,91 @@ Product.deleteMany().then(() => {
   .catch(err => {
     console.log(err);
   });
+
+//Server API implementations
+
+app.get('/', (req, res) => {
+  res.send('Products Catalogue');
+});
+
+//Retrieve all products
+app.get('/products', (req, res) => {
+  Product.find()
+    .then(products => {
+      res.send(products);
+    })
+    .catch(err => {
+      console.log(err);
+    });
+});
+
+//Create a new product
+app.post('/products', (req, res) => {
+  const product = new Product({
+    id: req.body.id,title: req.body.title,
+    description: req.body.description,price: req.body.price,
+    discountPercentage: req.body.discountPercentage,rating: req.body.rating,
+    stock: req.body.stock,
+    brand: req.body.brand,category: req.body.category,thumbnail: req.body.thumbnail,
+    images: req.body.images
+  });
+
+  product.save()
+    .catch(err => {
+      console.log(err);
+    });
+  return res.send({'create':'Updated Successfully'});
+});
+
+//Retrieve an Element By ID 
+app.get('/products/:id', (req, res) => {
+  const id = req.params.id;
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).send('Invalid id format');
+  }
+  Product.findById(id)
+    .then(product => {
+      console.log(product)
+      res.send(product);
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).send('Error finding product');
+    });
+});
+
+//Modify Existing Product
+app.post('/products/:id/edit', (req, res) => {
+  const id = req.params.id;
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).send('Invalid id format');
+  }
+  Product.findByIdAndUpdate(id, {
+    id: req.body.id,title: req.body.title,
+    description: req.body.description,price: req.body.price,
+    discountPercentage: req.body.discountPercentage,rating: req.body.rating,
+    stock: req.body.stock,
+    brand: req.body.brand,category: req.body.category,thumbnail: req.body.thumbnail,
+    images: req.body.images
+  }).then(() => {
+      return res.send({'update':'Updated Successfully'});
+    })
+    .catch(err => {
+      console.log(err);
+    });
+});
+
+//Delete a Product
+app.get('/products/:id/delete', (req, res) => {
+  const id = req.params.id;
+  Product.findByIdAndRemove(id)
+    .then(() => {
+      return res.send({'delete':`Product Removed`});
+    })
+    .catch(err => {
+      console.log(err);
+    });
+});
 
 // Configure middleware
 const __dirname = path.dirname(new URL(import.meta.url).pathname);
