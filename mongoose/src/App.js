@@ -1,6 +1,6 @@
 import './App.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faAngleLeft, faAngleRight } from '@fortawesome/fontawesome-free-solid'
+import { faAngleLeft, faAngleRight, faAngleDoubleLeft, faAngleDoubleRight} from '@fortawesome/fontawesome-free-solid'
 import { useState, useEffect} from 'react';
 
 function App() {
@@ -86,7 +86,19 @@ function App() {
       // setError(false);
     }
   }, [selectionItem, setSelectionItem]);
-  console.log(allItems);
+
+const firstItem = ()=>{
+  if(allItems.length > 0){
+    setSelectionItem(allItems[0].id);
+  }
+}
+
+const lastItem = ()=>{
+  if(allItems.length > 0){
+    setSelectionItem(allItems[allItems.length - 1].id);
+  }
+}
+
 return (
     <div className="App">
       <div id="buttons">
@@ -161,9 +173,11 @@ return (
         </div>
 
         <div id="buttons">
+          <button onClick={firstItem}><FontAwesomeIcon icon={faAngleDoubleLeft} /></button>
           <button onClick={previousItem}><FontAwesomeIcon icon={faAngleLeft} /></button>
           <input onChange={(e) => setSelectionItem(e.target.value)} value={selectionItem}/>
           <button onClick={nextItem}><FontAwesomeIcon icon={faAngleRight} /></button>
+          <button onClick={lastItem}><FontAwesomeIcon icon={faAngleDoubleRight} /></button>
         </div>
       </div>
     </div>
