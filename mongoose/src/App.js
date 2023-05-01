@@ -87,7 +87,7 @@ function App() {
     }
   }, [selectionItem, setSelectionItem]);
   console.log(allItems);
-  return (
+return (
     <div className="App">
       <div id="buttons">
         <button onClick={insertProduct}>Insert</button><br/>
@@ -133,18 +133,33 @@ function App() {
             <label>thumbnail:</label>
             <img src={item.thumbnail} alt={item.description}/>
           </div>
-          <div className="carousel">
+        </div>
+
+        <div className="container">
+          <h2>Carousel Example</h2>  
+          <div id="myCarousel" className="carousel slide" data-ride="carousel">
             <div className="carousel-inner">
-              {(item.images).map((imageUrl, index) => (
-                <div key={imageUrl} className={`carousel-item ${index === activeIndex ? 'active' : ''}`}>
-                  <img src={imageUrl} alt={`Image ${index}`} />
+              <div className="item active">
+                <img src={item.images[0]} alt={item.description} style={{width:"80%", height:'100%'}}/>
+              </div>
+              {item.images.map((imageUrl, index) => (
+                <div className="item" key={index} >
+                  <img src={imageUrl} alt={item.description} style={{width:"100%", height:'100%'}}/>
                 </div>
               ))}
             </div>
-            <button className="carousel-prev" onClick={handlePrev}>Prev</button>
-            <button className="carousel-next" onClick={handleNext}>Next</button>
+
+            <a className="left carousel-control" href="#myCarousel" data-slide="prev">
+              <span className="glyphicon glyphicon-chevron-left"></span>
+              <span className="sr-only">Previous</span>
+            </a>
+            <a className="right carousel-control" href="#myCarousel" data-slide="next">
+              <span className="glyphicon glyphicon-chevron-right"></span>
+              <span className="sr-only">Next</span>
+            </a>
           </div>
         </div>
+
         <div id="buttons">
           <button onClick={previousItem}><FontAwesomeIcon icon={faAngleLeft} /></button>
           <input onChange={(e) => setSelectionItem(e.target.value)} value={selectionItem}/>
@@ -153,6 +168,8 @@ function App() {
       </div>
     </div>
   );
+
+
 }
 
 export default App;
