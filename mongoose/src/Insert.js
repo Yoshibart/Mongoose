@@ -1,16 +1,67 @@
 import './App.css';
 import { useState, useEffect} from 'react';
 
-function Insert() {
+const Change = () =>{
   const [item, setItem] = useState({
-    id:"",title:"",
+    title:"",
     description:"",
     discountPercentage:"",rating:"",
     stock:"",
     brand:"",category:"",thumbnail:"",
     images:[]
   });
+  const [errorText, setErrorText] = useState("")
+  const [imageList, setImageList] = useState([]);
+  const [error, setError] = useState(false);
 
+  const handleAddClick = (index) =>{
+    setImageList(prevList => {
+      const newList = [...prevList];
+      newList.splice(index, 0, "");
+      return newList;
+    });
+  }
+
+  const handleDeleteClick = (index) =>{
+    setImageList(prevList => {
+      const newList = [...prevList];
+      newList.splice(index, 1);
+      return newList;
+    });
+  }
+
+  const handleInputChange = (event, index) =>{
+    const value = event.target.value;
+    setImageList(prevList => {
+      const newList = [...prevList];
+      newList[index] = value;
+      return newList;
+    });
+  }
+
+  useEffect(() => {
+      setImageList(item.images);
+  }, [item]);
+
+  const changeData = async () => {
+    let data = item;
+    data = {...data, images:imageList}
+    try{
+      const response = await fetch(`http://localhost:3030/products/`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(data)
+      });
+
+      const responseData = await response.json();
+      setErrorText(responseData.create);
+    }catch(error){
+      console.error(error);
+    }
+  }
+  console.log(errorText)
+
+  console.log(item)
   const setItemInputs = event =>{
     setItem(oldata =>{return {...oldata,[event.target.name]:event.target.value}})}
 
@@ -48,16 +99,31 @@ function Insert() {
           </div>
           <div>
             <label>thumbnail_URL:</label>
-            <input name="category" required onChange={setItemInputs} value={item.category}/>
+            <input name="thumbnail" required onChange={setItemInputs} value={item.thumbnail}/>
+          </div>
+          <div>
+            {imageList.map((url, index) => (
+              <div key={index}>
+                <p>
+                  <input
+                    type="text"
+                    value={url}
+                    onChange={event => handleInputChange(event, index)}
+                  />
+                  <button onClick={() => handleDeleteClick(index)}>Delete</button>
+                </p>
+              </div>
+            ))}
           </div>
         </div>
 
         <div id="buttons">
-          <button>Save</button>
+          <button onClick={changeData}>Create</button>
+          <button onClick={handleAddClick}>Add Image</button>
         </div>
       </div>
     </div>
   );
 }
 
-export default Insert;
+export default Change;

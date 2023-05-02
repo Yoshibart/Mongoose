@@ -109,25 +109,25 @@ const changeData = async () => {
             <label>thumbnail_URL:</label>
             <input name="thumbnail" required onChange={setItemInputs} value={item.thumbnail}/>
           </div>
-    <div>
-      {imageList.map((url, index) => (
-        <div key={index}>
-          <p>
-            <input
-              type="text"
-              value={url}
-              onChange={event => handleInputChange(event, index)}
-            />
-            <button onClick={() => handleDeleteClick(index)}>Delete</button>
-          </p>
-        </div>
-      ))}
-    </div>
+          <div>
+            {imageList.map((url, index) => (
+              <div key={index}>
+                <p>
+                  <input
+                    type="text"
+                    value={url}
+                    onChange={event => handleInputChange(event, index)}
+                  />
+                  <button onClick={() => handleDeleteClick(index)}>Delete</button>
+                </p>
+              </div>
+            ))}
+          </div>
         </div>
 
         <div id="buttons">
           <button onClick={changeData}>Modify</button>
-          <button onClick={handleAddClick}>Add</button>
+          <button onClick={handleAddClick}>Add Image</button>
         </div>
       </div>
     </div>

@@ -28,16 +28,13 @@ function App() {
     });  
   }, [item]);
 
-
-
-  const insertProduct = () =>{
-
-  }
-  const modifyProduct = () =>{
-    
-  }
   const deleteProduct = () =>{
-    
+    fetch(`http://localhost:3030/products/${selectionItem}/delete`).then(response => response.json())
+    .then(data => {
+      setError(true);
+      setErrorText(data.deleted)
+    });
+    nextItem();  
   }
   const searchProduct = () =>{
     

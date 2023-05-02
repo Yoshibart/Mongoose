@@ -53,23 +53,32 @@ app.get('/products', (req, res) => {
     });
 });
 
-//Create a new product
-app.post('/products', (req, res) => {
+app.post('/products', async (req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+  res.setHeader('Access-Control-Allow-Methods', 'POST');
+  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+
+  const lastProduct = await Product.findOne().sort({_id: -1});
+  const id = lastProduct ? lastProduct.id + 1 : 1;
+
   const product = new Product({
-    id: req.body.id,title: req.body.title,
-    description: req.body.description,price: req.body.price,
-    discountPercentage: req.body.discountPercentage,rating: req.body.rating,
+    id: id,
+    title: req.body.title,
+    description: req.body.description,
+    price: req.body.price,
+    discountPercentage: req.body.discountPercentage,
+    rating: req.body.rating,
     stock: req.body.stock,
-    brand: req.body.brand,category: req.body.category,thumbnail: req.body.thumbnail,
+    brand: req.body.brand,
+    category: req.body.category,
+    thumbnail: req.body.thumbnail,
     images: req.body.images
   });
 
-  product.save()
-    .catch(err => {
-      console.log(err);
-    });
-  return res.send({'create':'Updated Successfully'});
+  await product.save();
+  return res.send({ 'create': 'Created Successfully' });
 });
+
 
 //Retrieve an Element By ID 
 app.get('/products/:id', (req, res) => {
