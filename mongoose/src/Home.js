@@ -94,7 +94,7 @@ const firstItem = ()=>{ if(allItems.length > 0) setSelectionItem(allItems[0].id)
 const lastItem = ()=>{ if(allItems.length > 0) setSelectionItem(allItems[allItems.length - 1].id);}
 
 const handleInsertClick = () => navigate('/insert');
-const handleChangeClick = () => navigate('/change');
+const handleChangeClick = () => navigate('/change', { state: { name: item.id } });
 
 return (
     <div className="App">
@@ -108,35 +108,35 @@ return (
         <div id="input">
           <div>
             <label>id:</label>
-            <input name="id" required onChange={setItemInputs} value={item.id}/>
+            <input name="id" disabled required onChange={setItemInputs} value={item.id}/>
           </div>
           <div>
             <label>title:</label>
-            <input name="title" required onChange={setItemInputs} value={item.title}/>
+            <input name="title" disabled required onChange={setItemInputs} value={item.title}/>
           </div>
           <div>
             <label>description:</label>
-            <input name="description" required onChange={setItemInputs} value={item.description}/>
+            <input name="description" disabled required onChange={setItemInputs} value={item.description}/>
           </div>
           <div>
             <label>discountPercentage:</label>
-            <input name="discountPercentage" required onChange={setItemInputs} value={item.discountPercentage}/>
+            <input name="discountPercentage" disabled required onChange={setItemInputs} value={item.discountPercentage}/>
           </div>
           <div>
             <label>rating:</label>
-            <input name="rating" required onChange={setItemInputs} value={item.rating}/>
+            <input name="rating" disabled required onChange={setItemInputs} value={item.rating}/>
           </div>
           <div>
             <label>stock:</label>
-            <input name="stock" required onChange={setItemInputs} value={item.stock}/>
+            <input name="stock" disabled required onChange={setItemInputs} value={item.stock}/>
           </div>
           <div>
             <label>brand:</label>
-            <input name="brand" required onChange={setItemInputs} value={item.brand}/>
+            <input name="brand" disabled required onChange={setItemInputs} value={item.brand}/>
           </div>
           <div>
             <label>category:</label>
-            <input name="category" required onChange={setItemInputs} value={item.category}/>
+            <input name="category" disabled required onChange={setItemInputs} value={item.category}/>
           </div>
           <div>
             <label>thumbnail:</label>
@@ -145,7 +145,7 @@ return (
         </div>
 
         <div className="container">
-          <h2>Carousel Example</h2>  
+
           <div id="myCarousel" className="carousel slide" data-ride="carousel">
             <div className="carousel-inner">
               <div className="item active">
