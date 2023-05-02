@@ -88,10 +88,6 @@ const handleChangeClick = () => navigate('/', { state: { name: item.id } });
             <input name="title" required onChange={setItemInputs} value={item.title}/>
           </div>
           <div>
-            <label>description:</label>
-            <input name="description" required onChange={setItemInputs} value={item.description}/>
-          </div>
-          <div>
             <label>discountPercentage:</label>
             <input name="discountPercentage" required onChange={setItemInputs} value={item.discountPercentage}/>
           </div>
@@ -114,6 +110,10 @@ const handleChangeClick = () => navigate('/', { state: { name: item.id } });
           <div>
             <label>thumbnail_URL:</label>
             <input name="thumbnail" required onChange={setItemInputs} value={item.thumbnail}/>
+          </div>
+          <div>
+            <label>description:</label>
+              <p><textarea name="description" required onChange={setItemInputs} value={item.description}></textarea></p>
           </div>
           <div>
             <label>Images:</label>
