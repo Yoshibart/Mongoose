@@ -17,7 +17,7 @@ mongoose.connect('mongodb://localhost/products', { useNewUrlParser: true })
 
 // Description of the product state
 const productSchema = new mongoose.Schema({
-  id: String,title: String,
+  id: Number,title: String,
   description: String,price: Number,
   discountPercentage: Number,rating: Number,stock: Number,
   brand: String,category: String,thumbnail: String,images: Array
@@ -74,10 +74,7 @@ app.post('/products', (req, res) => {
 //Retrieve an Element By ID 
 app.get('/products/:id', (req, res) => {
   const id = req.params.id;
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(400).send('Invalid id format');
-  }
-  Product.findById(id)
+  Product.findOne({ id })
     .then(product => {
       console.log(product)
       res.send(product);
@@ -88,18 +85,27 @@ app.get('/products/:id', (req, res) => {
     });
 });
 
-//Modify Existing Product
+
+/// Modify Existing Product
 app.post('/products/:id/edit', (req, res) => {
-  const id = req.params.id;
-  if (!mongoose.Types.ObjectId.isValid(id)) {
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+  res.setHeader('Access-Control-Allow-Methods', 'POST');
+  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+  const id = Number(req.params.id);
+  console.log(id);
+  if (!Number.isInteger(id)) {
     return res.status(400).send('Invalid id format');
   }
-  Product.findByIdAndUpdate(id, {
-    id: req.body.id,title: req.body.title,
-    description: req.body.description,price: req.body.price,
-    discountPercentage: req.body.discountPercentage,rating: req.body.rating,
+  Product.findOneAndUpdate({id: id}, {
+    title: req.body.title,
+    description: req.body.description,
+    price: req.body.price,
+    discountPercentage: req.body.discountPercentage,
+    rating: req.body.rating,
     stock: req.body.stock,
-    brand: req.body.brand,category: req.body.category,thumbnail: req.body.thumbnail,
+    brand: req.body.brand,
+    category: req.body.category,
+    thumbnail: req.body.thumbnail,
     images: req.body.images
   }).then(() => {
       return res.send({'update':'Updated Successfully'});
@@ -109,10 +115,11 @@ app.post('/products/:id/edit', (req, res) => {
     });
 });
 
-//Delete a Product
+
+// Delete a Product
 app.get('/products/:id/delete', (req, res) => {
   const id = req.params.id;
-  Product.findByIdAndRemove(id)
+  Product.findOneAndDelete({id})
     .then(() => {
       return res.send({'delete':`Product Removed`});
     })
@@ -120,6 +127,7 @@ app.get('/products/:id/delete', (req, res) => {
       console.log(err);
     });
 });
+
 
 // Configure middleware
 const __dirname = path.dirname(new URL(import.meta.url).pathname);
