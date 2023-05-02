@@ -1,8 +1,9 @@
 import './App.css';
 import { useState, useEffect} from 'react';
 import { useLocation } from 'react-router-dom';
-
+import { Link, useNavigate } from 'react-router-dom';
 const Change = () =>{
+  const navigate = useNavigate();
   const { state } = useLocation();
   const name = state && state.name;
   const [item, setItem] = useState({
@@ -72,9 +73,14 @@ const changeData = async () => {
   console.log(errorText)
   const setItemInputs = event =>{
     setItem(oldata =>{return {...oldata,[event.target.name]:event.target.value}})}
-
+const handleInsertClick = () => navigate('/insert');
+const handleChangeClick = () => navigate('/', { state: { name: item.id } });
   return (
     <div className="App">
+      <div id="buttons">
+        <button onClick={handleChangeClick}>Home</button><br/>
+        <button onClick={handleInsertClick}>Insert</button><br/>
+      </div> 
       <div id="inputs-section">
         <div id="input">
           <div>
@@ -110,6 +116,7 @@ const changeData = async () => {
             <input name="thumbnail" required onChange={setItemInputs} value={item.thumbnail}/>
           </div>
           <div>
+            <label>Images:</label>
             {imageList.map((url, index) => (
               <div key={index}>
                 <p>
@@ -126,7 +133,7 @@ const changeData = async () => {
         </div>
 
         <div id="buttons">
-          <button onClick={changeData}>Modify</button>
+          <button onClick={changeData}>Update</button>
           <button onClick={handleAddClick}>Add Image</button>
         </div>
       </div>

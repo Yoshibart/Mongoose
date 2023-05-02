@@ -1,7 +1,8 @@
 import './App.css';
 import { useState, useEffect} from 'react';
-
+import { Link, useNavigate } from 'react-router-dom';
 const Change = () =>{
+  const navigate = useNavigate();
   const [item, setItem] = useState({
     title:"",
     description:"",
@@ -64,9 +65,14 @@ const Change = () =>{
   console.log(item)
   const setItemInputs = event =>{
     setItem(oldata =>{return {...oldata,[event.target.name]:event.target.value}})}
-
+const handleInsertClick = () => navigate('/');
+const handleChangeClick = () => navigate('/change', { state: { name: item.id } });
   return (
     <div className="App">
+      <div id="buttons">
+        <button onClick={handleInsertClick}>Home</button><br/>
+        <button onClick={handleChangeClick}>Update</button><br/>
+      </div> 
       <div id="inputs-section">
         <div id="input">
           <div>
@@ -102,6 +108,7 @@ const Change = () =>{
             <input name="thumbnail" required onChange={setItemInputs} value={item.thumbnail}/>
           </div>
           <div>
+            <label>Images:</label>
             {imageList.map((url, index) => (
               <div key={index}>
                 <p>

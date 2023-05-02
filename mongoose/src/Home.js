@@ -112,10 +112,6 @@ return (
             <input name="title" disabled required onChange={setItemInputs} value={item.title}/>
           </div>
           <div>
-            <label>description:</label>
-            <input name="description" disabled required onChange={setItemInputs} value={item.description}/>
-          </div>
-          <div>
             <label>discountPercentage:</label>
             <input name="discountPercentage" disabled required onChange={setItemInputs} value={item.discountPercentage}/>
           </div>
@@ -136,43 +132,43 @@ return (
             <input name="category" disabled required onChange={setItemInputs} value={item.category}/>
           </div>
           <div>
-            <label>thumbnail:</label>
-            <img src={item.thumbnail} alt={item.description}/>
+            <label>description:</label>
+              <p><textarea name="description" disabled required onChange={setItemInputs} value={item.description}></textarea></p>
           </div>
-        </div>
-
-        <div className="container">
-
-          <div id="myCarousel" className="carousel slide" data-ride="carousel">
-            <div className="carousel-inner">
-              <div className="item active">
-                <img src={item.images[0]} alt={item.description} style={{width:"80%", height:'100%'}}/>
-              </div>
-              {item.images.map((imageUrl, index) => (
-                <div className="item" key={index} >
-                  <img src={imageUrl} alt={item.description} style={{width:"100%", height:'100%'}}/>
+          <div className="container" style={{margin:"1rem", width:"100%", height: "50%"}}>
+            <div id="myCarousel" className="carousel slide" data-ride="carousel">
+              <div className="carousel-inner">
+                <div className="item active">
+                  <img src={item.images[0]} alt={item.description} style={{margin:"auto",width:"80vh", height:'40vh'}}/>
                 </div>
-              ))}
-            </div>
+                {item.images.map((imageUrl, index) => (
+                  <div className="item" key={index} >
+                    <img src={imageUrl} alt={item.description} style={{margin:"auto",width:"80vh", height:'40vh'}}/>
+                  </div>
+                ))}
+              </div>
 
-            <a className="left carousel-control" href="#myCarousel" data-slide="prev">
-              <span className="glyphicon glyphicon-chevron-left"></span>
-              <span className="sr-only">Previous</span>
-            </a>
-            <a className="right carousel-control" href="#myCarousel" data-slide="next">
-              <span className="glyphicon glyphicon-chevron-right"></span>
-              <span className="sr-only">Next</span>
-            </a>
+              <a className="left carousel-control" href="#myCarousel" data-slide="prev">
+                <span className="glyphicon glyphicon-chevron-left"></span>
+                <span className="sr-only">Previous</span>
+              </a>
+              <a className="right carousel-control" href="#myCarousel" data-slide="next">
+                <span className="glyphicon glyphicon-chevron-right"></span>
+                <span className="sr-only">Next</span>
+              </a>
+            </div>
+          </div>
+          <div id="navButtons">
+            <button onClick={firstItem}><FontAwesomeIcon icon={faAngleDoubleLeft} /></button>
+            <button onClick={previousItem}><FontAwesomeIcon icon={faAngleLeft} /></button>
+            <input onChange={(e) => setSelectionItem(e.target.value)} value={selectionItem}/>
+            <button onClick={nextItem}><FontAwesomeIcon icon={faAngleRight} /></button>
+            <button onClick={lastItem}><FontAwesomeIcon icon={faAngleDoubleRight} /></button>
           </div>
         </div>
-
-        <div id="buttons">
-          <button onClick={firstItem}><FontAwesomeIcon icon={faAngleDoubleLeft} /></button>
-          <button onClick={previousItem}><FontAwesomeIcon icon={faAngleLeft} /></button>
-          <input onChange={(e) => setSelectionItem(e.target.value)} value={selectionItem}/>
-          <button onClick={nextItem}><FontAwesomeIcon icon={faAngleRight} /></button>
-          <button onClick={lastItem}><FontAwesomeIcon icon={faAngleDoubleRight} /></button>
-        </div>
+      </div>
+      <div id="thumbnail">
+        <img src={item.thumbnail} alt={item.description}  style={{borderRadius:"100%",width:"20rem", height:"20rem",margin:"auto"}}/>
       </div>
     </div>
   );
