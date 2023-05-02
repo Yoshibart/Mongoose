@@ -22,6 +22,13 @@ function App() {
     setItem(oldata =>{return {...oldata,[event.target.name]:event.target.value}})}
 
   useEffect(() => {
+    fetch(`http://localhost:3030/products/1`).then(response => response.json())
+    .then(datas => {
+      setItem(datas);
+    });  
+  }, []);
+
+  useEffect(() => {
     fetch(`http://localhost:3030/products/`).then(response => response.json())
     .then(datas => {
       setAllItems(datas);
