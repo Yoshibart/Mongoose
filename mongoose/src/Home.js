@@ -8,6 +8,7 @@ function App() {
   const navigate = useNavigate();
   const [activeIndex, setActiveIndex] = useState(0);
   const [selectionItem, setSelectionItem] = useState('');
+  const [filterCategory, setFilterCategory] = useState([])
   const [item, setItem] = useState({
     id:"",title:"",
     description:"",
@@ -28,12 +29,15 @@ function App() {
     });  
   }, []);
 
-  useEffect(() => {
-    fetch(`http://localhost:3030/products/`).then(response => response.json())
+useEffect(() => {
+  fetch(`http://localhost:3030/products/`)
+    .then(response => response.json())
     .then(datas => {
       setAllItems(datas);
     });  
-  }, [item]);
+}, [item]);
+
+console.log(allItems)
 
   const deleteProduct = () =>{
     fetch(`http://localhost:3030/products/${selectionItem}/delete`).then(response => response.json())
@@ -100,13 +104,22 @@ const lastItem = ()=>{ if(allItems.length > 0) setSelectionItem(allItems[allItem
 const handleInsertClick = () => navigate('/insert');
 const handleChangeClick = () => navigate('/change', { state: { name: item.id } });
 
+const uniqueCategories = Array.from(new Set(allItems.map((item) => item.category)));
+
 return (
     <div className="App">
       <div id="buttons">
         <button onClick={handleInsertClick}>Insert</button><br/>
         <button onClick={handleChangeClick}>Update</button><br/>
         <button onClick={deleteProduct}>Delete</button><br/>
-        <button onClick={searchProduct}>Search</button><br/>
+        <select id="filters">
+          <option value="">No-Filter</option>
+          {uniqueCategories.map((category) => (
+            <option key={category} value={category}>
+              {category}
+            </option>
+          ))}
+        </select>
       </div> 
       <div id="inputs-section">
         <div id="input">

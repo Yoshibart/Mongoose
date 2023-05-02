@@ -79,7 +79,7 @@
   margin:0 1rem 0 1rem;
 }
 
-#buttons button{
+#buttons button, select{
   border: 1 px solid #00005f;
   color: #00005f;
   padding: 1.5rem;
