@@ -1,7 +1,8 @@
 import './App.css';
 import { useState, useEffect} from 'react';
 import { useLocation } from 'react-router-dom';
-function Change() {
+
+const Change = () =>{
   const { state } = useLocation();
   const name = state && state.name;
   const [item, setItem] = useState({
@@ -16,7 +17,7 @@ function Change() {
   const [imageList, setImageList] = useState([]);
   const [error, setError] = useState(false);
 
-function handleAddClick(index) {
+const handleAddClick = (index) =>{
   setImageList(prevList => {
     const newList = [...prevList];
     newList.splice(index, 0, "");
@@ -24,7 +25,7 @@ function handleAddClick(index) {
   });
 }
 
-function handleDeleteClick(index) {
+const handleDeleteClick = (index) =>{
   setImageList(prevList => {
     const newList = [...prevList];
     newList.splice(index, 1);
@@ -33,7 +34,7 @@ function handleDeleteClick(index) {
 }
 
 
-  function handleInputChange(event, index) {
+  const handleInputChange = (event, index) =>{
     const value = event.target.value;
     setImageList(prevList => {
       const newList = [...prevList];
